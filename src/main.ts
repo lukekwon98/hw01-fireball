@@ -15,7 +15,27 @@ import lambertFragSource from './shaders/lambert-frag.glsl?raw';
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
   tesselations: 5,
-  'Load Scene': loadScene, // A function pointer, essentially
+  //'Load Scene': loadScene, // A function pointer, essentially
+  Base: [140, 153, 217], // RGB array
+  Variation: [77, 64, 26],
+  Frequency: [204, 230, 255],
+  Phase: [217, 230, 242],
+  Tail: 1,
+  Speed: 1,
+  Length: 5,
+  ColorWave: 0,
+
+  'Reset Fireball': function() {
+    controls.tesselations = 5;
+    controls.Base = [140, 153, 217];
+    controls.Variation = [77, 64, 26];
+    controls.Frequency = [204, 230, 255];
+    controls.Phase = [217, 230, 242];
+    controls.Tail = 1;
+    controls.Speed = 1;
+    controls.Length = 5;
+    controls.ColorWave = 0;
+  }
 };
 
 let icosphere: Icosphere;
@@ -41,7 +61,15 @@ function main() {
   // Add controls to the gui
   const gui = new DAT.GUI();
   gui.add(controls, 'tesselations', 0, 8).step(1);
-  gui.add(controls, 'Load Scene');
+  gui.addColor(controls, 'Base');
+  gui.addColor(controls, 'Variation');
+  gui.addColor(controls, 'Frequency');
+  gui.addColor(controls, 'Phase');
+  gui.add(controls, 'Tail', -0.95, 2.95).step(0.05);
+  gui.add(controls, 'Speed', -10, 10).step(0.05);
+  gui.add(controls, 'Length', -20, 20).step(0.1);
+  gui.add(controls, 'ColorWave', 0, 0.2).step(0.01);
+  gui.add(controls, 'Reset Fireball');
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -85,7 +113,16 @@ function main() {
     
     lambert.setTime(time);
 
-    renderer.render(camera, lambert, [
+    renderer.render(camera, lambert, 
+      vec3.fromValues(controls.Base[0], controls.Base[1], controls.Base[2]),
+      vec3.fromValues(controls.Variation[0], controls.Variation[1], controls.Variation[2]),
+      vec3.fromValues(controls.Frequency[0], controls.Frequency[1], controls.Frequency[2]),
+      vec3.fromValues(controls.Phase[0], controls.Phase[1], controls.Phase[2]),
+      controls.Tail,
+      controls.Speed,
+      controls.Length,
+      controls.ColorWave,
+      [
       icosphere,
       //square,
     ]);

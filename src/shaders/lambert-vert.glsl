@@ -20,6 +20,9 @@ uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformati
                             // but in HW3 you'll have to generate one yourself
 
 uniform float u_Time;
+uniform float u_Tail;
+uniform float u_Speed;
+uniform float u_Length;
 
 in vec4 vs_Pos;             // The array of vertex positions passed to the shader
 
@@ -156,7 +159,7 @@ void main()
     vec4 pos = vs_Pos;
 
     float randVal = wavyFunc(pos.xyz);
-    float randVal3 = fbmPerlin(vec3(pos + u_Time*0.01)) * 1.2;
+    float randVal3 = fbmPerlin(vec3(pos + u_Time*0.01*u_Speed)) * 1.2;
     randVal3 = (randVal3 + 1.0)*0.5;
 
     vec3 tailDir = normalize(vec3(-1.0));
@@ -170,20 +173,19 @@ void main()
     pos.xyz += randVal;
 
     // everything except dot product 0.95 - 1.0 gets a tail
-    tailMask = smoothstep(-1., 0.95, tailMask);
+    tailMask = smoothstep(0.-u_Tail, 0.95, tailMask);
 
-    float phase = fract(u_Time * 0.0005);
+    float phase = fract(u_Time * 0.001*u_Speed);
     float pulse = impulse(25.0, phase);
 
-    //pulse = gain(0.65, pulse);
+    pulse = gain(0.75, pulse);
 
     float tri = triangle_wave(u_Time * 0.01, 1.0, 1.0);
-
     float extraNoise = fbmPerlin(vec3(pos + u_Time*0.01))*1.;
     extraNoise = (extraNoise + 1.0) * 0.5;
 
     pos.xyz += tailDir * extraNoise * tri * 0.01 * tailMask;
-    pos.xyz += tailDir * randVal3*5. * tailMask * (1.0 + pulse);
+    pos.xyz += tailDir * randVal3*u_Length * tailMask * (1.0 + pulse);
 
     fs_Displacement = length(pos.xyz - vs_Pos.xyz);
 

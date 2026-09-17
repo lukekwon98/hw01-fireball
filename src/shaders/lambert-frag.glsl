@@ -12,8 +12,14 @@
 precision highp float;
 
 uniform vec4 u_Color; // The color with which to render this instance of geometry.
+uniform vec4 u_Color2;
+uniform vec4 u_Color3;
+uniform vec4 u_Color4;
 
 uniform float u_Time;
+uniform float u_Speed;
+uniform float u_Length;
+uniform float u_ColorTransition;
 
 // These are the interpolated values out of the rasterizer, so you can't know
 // their specific values without knowing the vertices that contributed to them
@@ -183,11 +189,14 @@ vec3 palette2(in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d)
 }
 
 vec3 BWRPalette(float t) {
-    vec3 v1 = vec3(0.55, 0.60, 0.85); 
-    vec3 v2 = vec3(0.30, 0.25, 0.10);
-    //vec3 v2 = vec3(0.20, 0.18, 0.25); 
-    vec3 v3 = vec3(0.80, 0.90, 1.00); 
-    vec3 v4 = vec3(0.85, 0.90, 0.95); 
+    vec3 v1 = u_Color.xyz;
+    vec3 v2 = u_Color2.xyz;
+    vec3 v3 = u_Color3.xyz;
+    vec3 v4 = u_Color4.xyz;
+    //vec3 v1 = vec3(0.55, 0.60, 0.85); 
+    // vec3 v2 = vec3(0.30, 0.25, 0.10);
+    // vec3 v3 = vec3(0.80, 0.90, 1.00); 
+    // vec3 v4 = vec3(0.85, 0.90, 0.95); 
 
     return palette(t, v1, v2, v3, v4);
 }
@@ -240,12 +249,12 @@ void main()
 
     //vec3 resultColor = mix(innerColor, outerColor, t);
     
-    vec3 resultColor = BWRPalette(fs_Displacement);
+    vec3 resultColor = BWRPalette(fs_Displacement + u_Time*u_ColorTransition);
 
-    float phase = fract(u_Time * 0.0005);
+    float phase = fract(u_Time * 0.001*u_Speed);
     float pulse = impulse(25.0, phase);
 
-    pulse = gain(0.65, pulse);
+    pulse = gain(0.75, pulse);
 
     vec3 impulseColor = BWRPalette2(fs_Displacement);
 
