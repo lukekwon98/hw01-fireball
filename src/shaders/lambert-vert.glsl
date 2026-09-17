@@ -168,8 +168,6 @@ void main()
     float tailMask = dot(normalDir, tailDir);
     float weight = (tailMask + 1.0)*0.5;
 
-    vec3 dir = normalize(mix(tailDir, normalDir, weight));
-
     pos.xyz += randVal;
 
     // everything except dot product 0.95 - 1.0 gets a tail
