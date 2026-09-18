@@ -3,6 +3,7 @@ import Stats from 'stats-js';
 import * as DAT from 'dat.gui';
 import Icosphere from './geometry/Icosphere';
 import Square from './geometry/Square';
+import Cube from './geometry/Cube';
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
 import {setGL} from './globals';
@@ -15,38 +16,48 @@ import lambertFragSource from './shaders/lambert-frag.glsl?raw';
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
   tesselations: 5,
-  //'Load Scene': loadScene, // A function pointer, essentially
-  Base: [140, 153, 217], // RGB array
+  'Load Scene': loadScene, // A function pointer, essentially
+  'Reset Fireball': resetFireball,
+  Base: [140, 153, 217],
   Variation: [77, 64, 26],
   Frequency: [204, 230, 255],
   Phase: [217, 230, 242],
   Tail: 1,
   Speed: 1,
   Length: 5,
-  ColorWave: 0,
-
-  'Reset Fireball': function() {
-    controls.tesselations = 5;
-    controls.Base = [140, 153, 217];
-    controls.Variation = [77, 64, 26];
-    controls.Frequency = [204, 230, 255];
-    controls.Phase = [217, 230, 242];
-    controls.Tail = 1;
-    controls.Speed = 1;
-    controls.Length = 5;
-    controls.ColorWave = 0;
-  }
+  ColorWave: 0
 };
+
+let controllers: DAT.GUIController[] = [];
+
+function resetFireball() {
+  controls.tesselations = 5;
+  controls.Base = [140, 153, 217];
+  controls.Variation = [77, 64, 26];
+  controls.Frequency = [204, 230, 255];
+  controls.Phase = [217, 230, 242];
+  controls.Tail = 1;
+  controls.Speed = 1;
+  controls.Length = 5;
+  controls.ColorWave = 0;
+
+  for(let controller of controllers){
+    controller.updateDisplay();
+  }
+}
 
 let icosphere: Icosphere;
 let square: Square;
 let prevTesselations: number = 5;
+let cube: Cube;
 
 function loadScene() {
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
   icosphere.create();
   square = new Square(vec3.fromValues(0, 0, 0));
   square.create();
+  cube = new Cube(vec3.fromValues(0,0,0));
+  cube.create();
 }
 
 function main() {
@@ -60,15 +71,15 @@ function main() {
 
   // Add controls to the gui
   const gui = new DAT.GUI();
-  gui.add(controls, 'tesselations', 0, 8).step(1);
-  gui.addColor(controls, 'Base');
-  gui.addColor(controls, 'Variation');
-  gui.addColor(controls, 'Frequency');
-  gui.addColor(controls, 'Phase');
-  gui.add(controls, 'Tail', -0.95, 2.95).step(0.05);
-  gui.add(controls, 'Speed', -10, 10).step(0.05);
-  gui.add(controls, 'Length', -20, 20).step(0.1);
-  gui.add(controls, 'ColorWave', 0, 0.2).step(0.01);
+  gui.add(controls, 'tesselations', 0, 8).step(1).listen();
+  gui.addColor(controls, 'Base').listen();
+  gui.addColor(controls, 'Variation').listen();
+  gui.addColor(controls, 'Frequency').listen();
+  gui.addColor(controls, 'Phase').listen();
+  gui.add(controls, 'Tail', -0.95, 2.95).step(0.05).listen();
+  gui.add(controls, 'Speed', -10, 10).step(0.05).listen();
+  gui.add(controls, 'Length', -20, 20).step(0.1).listen();
+  gui.add(controls, 'ColorWave', 0, 0.2).step(0.01).listen();
   gui.add(controls, 'Reset Fireball');
 
   // get canvas and webgl context
@@ -124,7 +135,8 @@ function main() {
       controls.ColorWave,
       [
       icosphere,
-      //square,
+      //square
+      //cube,
     ]);
     stats.end();
 
