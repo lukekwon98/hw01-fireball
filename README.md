@@ -21,9 +21,9 @@ Link: https://lukekwon98.github.io/hw01-fireball/
 ### Background
 - Created a giant sphere encapsulating the camera and the comet
 - Used 3D Worley noise for stars and 3D FBM Perlin noise for the texture of the nebulae
-- The overall shape of the nebulae was created by using a separate 3D Perlin noise as a mask, which is animated using the time variable to make it appear to move.
+- The overall shape of the nebulae was created using a separate 3D Perlin noise as a mask, which is animated using the time variable to make it appear to move.
 - The 3D Worley noise was also animated using the time variable, giving the stars a twinkling effect.
-- If you keep scrolling out you can eventually see the universe from the outside.
+- If you keep scrolling out, you can eventually see the universe from the outside.
 
 ## Objective
 Get comfortable with using WebGL and its shaders to generate an interesting 3D, continuous surface using a multi-octave noise algorithm.
