@@ -5,6 +5,26 @@
 </p>
 <p align="center">(source: Aidan Gideon, CIS 5660 Fall 2025)</p>
 
+## Luke Kwon Assignment Detals
+Link: https://lukekwon98.github.io/hw01-fireball/
+
+### Fireball (Comet)
+- Added static noise from a custom wave function (wavyFunc) to give the comet its initial structure
+- Added an animated 3D Perlin-based FBM noise on top of the base structure to produce a fireball/comet like effect
+- Added a color gradient to the comet, using the displacement of the original vertex position and the resulting position with noise applied
+- Toolbox Functions used: Smoothstep, Impulse, Sin/Cos, Gain
+
+### Interactivity
+- Added 4 color pickers that can change the color gradient of the comet
+- Added 4 sliders that can control the influence of the comet tail, speed (frequency) of the noise, length of the comet, and animate the color gradient
+
+### Background
+- Created a giant sphere encapsulating the camera and the comet
+- Used 3D Worley noise for stars and 3D FBM Perlin noise for the texture of the nebulae
+- The overall shape of the nebulae was created by using a separate 3D Perlin noise as a mask, which is animated using the time variable to make it appear to move.
+- The 3D Worley noise was also animated using the time variable, giving the stars a twinkling effect.
+- If you keep scrolling out you can eventually see the universe from the outside.
+
 ## Objective
 Get comfortable with using WebGL and its shaders to generate an interesting 3D, continuous surface using a multi-octave noise algorithm.
 
