@@ -5,6 +5,7 @@ Link: https://lukekwon98.github.io/hw01-fireball/
 
 ### Fireball (Comet)
 <img width="1195" height="711" alt="Screenshot 2026-09-21 at 2 19 18 PM" src="https://github.com/user-attachments/assets/eea0b7e9-e4be-4259-b8f2-0bee42562160" />
+
 - Added static noise from a custom wave function (wavyFunc) to give the comet its initial structure
 - Added an animated 3D Perlin-based FBM noise on top of the base structure to produce a fireball/comet like effect
 - Added a color gradient to the comet, using the displacement of the original vertex position and the resulting position with noise applied
@@ -13,12 +14,14 @@ Link: https://lukekwon98.github.io/hw01-fireball/
 
 ### Interactivity
 <img width="247" height="301" alt="Screenshot 2026-09-21 at 2 19 46 PM" src="https://github.com/user-attachments/assets/a187e994-95a9-48ed-9554-d1432ea9976c" />
+
 - Added 4 color pickers that can change the color gradient of the comet
 - Added 4 sliders that can control the influence of the comet tail, speed (frequency) of the noise, length of the comet, and animate the color gradient
 
 ### Background
 <img width="2492" height="1554" alt="image" src="https://github.com/user-attachments/assets/8cbdd997-7d84-46b6-939e-c578bc037496" />
 <img width="1056" height="819" alt="Screenshot 2026-09-21 at 2 20 38 PM" src="https://github.com/user-attachments/assets/c78b191e-e59d-42f2-b6d0-7b61dab2e2b0" />
+
 - Created a giant sphere encapsulating the camera and the comet
 - Used 3D Worley noise for stars and 3D FBM Perlin noise for the texture of the nebulae
 - The overall shape of the nebulae was created using a separate 3D Perlin noise as a mask, which is animated using the time variable to make it appear to move.
