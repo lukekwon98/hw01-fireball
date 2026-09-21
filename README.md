@@ -1,10 +1,5 @@
 # HW 1: WebGL Fireball
 
-<p align="center">
-  <img width="360" height="360" src="fireball.png">
-</p>
-<p align="center">(source: Aidan Gideon, CIS 5660 Fall 2025)</p>
-
 ## Luke Kwon Assignment Detals
 Link: https://lukekwon98.github.io/hw01-fireball/
 
